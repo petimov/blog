@@ -8,14 +8,14 @@ import MenuCategories from "../menuCategories/MenuCategories";
 const Menu = () => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.subtitle}>{"What's hot"}</h2>
-      <h1 className={styles.title}>Most Popular</h1>
+      <h2 className={styles.subtitle}>{"co je populární"}</h2>
+      <h1 className={styles.title}>Nejpopulárnější</h1>
       <MenuPosts withImage={false} />
-      <h2 className={styles.subtitle}>Discover by topic</h2>
-      <h1 className={styles.title}>Categories</h1>
+      <h2 className={styles.subtitle}>Objev podle témata</h2>
+      <h1 className={styles.title}>Kategorie</h1>
       <MenuCategories />
-      <h2 className={styles.subtitle}>Chosen by the editor</h2>
-      <h1 className={styles.title}>Editors Pick</h1>
+      <h2 className={styles.subtitle}>Vybráno autorem</h2>
+      <h1 className={styles.title}>Autorův výběr</h1>
       <MenuPosts withImage={true} />
     </div>
   );

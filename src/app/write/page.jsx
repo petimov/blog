@@ -98,7 +98,7 @@ const WritePage = () => {
     <div className={styles.container}>
       <input
         type="text"
-        placeholder="Title"
+        placeholder="Název"
         className={styles.input}
         onChange={(e) => setTitle(e.target.value)}
       />
@@ -107,11 +107,8 @@ const WritePage = () => {
         onChange={(e) => setCatSlug(e.target.value)}
       >
         <option value="style">style</option>
-        <option value="fashion">fashion</option>
-        <option value="food">food</option>
-        <option value="culture">culture</option>
-        <option value="travel">travel</option>
-        <option value="coding">coding</option>
+        <option value="dvojplamen">dvojplamen</option>
+        <option value="hokej">hokej</option>
       </select>
 
       <div className={styles.editor}>
@@ -151,7 +148,7 @@ const WritePage = () => {
       </div>
 
       <button className={styles.publish} onClick={handleSubmit}>
-        Publish
+        Zveřejnit
       </button>
     </div>
   );

@@ -67,7 +67,7 @@ const MenuPosts = ({ withImage }) => {
         )}
         <div className={styles.textContainer}>
           <span className={`${styles.category} ${styles.fashion}`}>
-            Fashion
+            Dvojplamen
           </span>
           <h3 className={styles.postTitle}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.

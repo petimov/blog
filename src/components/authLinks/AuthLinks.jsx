@@ -18,7 +18,7 @@ const AuthLinks = () => {
       ) : (
         <>
           <Link href="/write" className={styles.link}>
-            Write
+            Napsat
           </Link>
           <span className={styles.link} onClick={signOut}>
             Odhlášení
