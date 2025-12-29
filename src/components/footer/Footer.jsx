@@ -9,42 +9,34 @@ const Footer = () => {
       <div className={styles.info}>
         <div className={styles.logo}>
           <Image src="/logo.png" alt="lama blog" width={50} height={50} />
-          <h1 className={styles.logoText}>Lamablog</h1>
+          <h1 className={styles.logoText}>Blog</h1>
         </div>
         <p className={styles.desc}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim
-          necessitatibus similique aspernatur obcaecati veritatis. Aperiam cum
-          porro sequi, totam minima consequuntur, aspernatur deleniti vero
-          repellendus dorales.
+          Chci zde sdílet své zážitky a poznatky ze života
         </p>
         <div className={styles.icons}>
-          <Image src="/facebook.png" alt="" width={18} height={18} />
+          <Link href="/https://www.facebook.com/petrmovsesjan1" className={styles.link}>
+          <Image src="/facebook.png" alt="facebook" width={18} height={18} />
+        </Link>
+        <Link href="/https://www.instagram.com/petrmovsesjan" className={styles.link}>
           <Image src="/instagram.png" alt="" width={18} height={18} />
-          <Image src="/tiktok.png" alt="" width={18} height={18} />
-          <Image src="/youtube.png" alt="" width={18} height={18} />
+        </Link>
         </div>
       </div>
       <div className={styles.links}>
         <div className={styles.list}>
-          <span className={styles.listTitle}>Links</span>
-          <Link href="/">Homepage</Link>
+          <span className={styles.listTitle}>Odkazy</span>
           <Link href="/">Blog</Link>
-          <Link href="/">About</Link>
-          <Link href="/">Contact</Link>
+          <Link href="/">O mně</Link>
         </div>
         <div className={styles.list}>
-          <span className={styles.listTitle}>Tags</span>
-          <Link href="/">Style</Link>
-          <Link href="/">Fashion</Link>
-          <Link href="/">Coding</Link>
-          <Link href="/">Travel</Link>
+          <span className={styles.listTitle}>Tagy</span>
+          <Link href="/">Dvojplamen</Link>
         </div>
         <div className={styles.list}>
-          <span className={styles.listTitle}>Social</span>
-          <Link href="/">Facebook</Link>
-          <Link href="/">Instagram</Link>
-          <Link href="/">Tiktok</Link>
-          <Link href="/">Youtube</Link>
+          <span className={styles.listTitle}>Socky</span>
+          <Link href="https://www.facebook.com/petrmovsesjan1">Facebook</Link>
+          <Link href="https://www.instagram.com/petrmovsesjan">Instagram</Link>
         </div>
       </div>
     </div>

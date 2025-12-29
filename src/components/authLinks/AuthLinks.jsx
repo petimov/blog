@@ -13,7 +13,7 @@ const AuthLinks = () => {
     <>
       {status === "unauthenticated" ? (
         <Link href="/login" className={styles.link}>
-          Login
+          Přihlášení
         </Link>
       ) : (
         <>
@@ -21,7 +21,7 @@ const AuthLinks = () => {
             Write
           </Link>
           <span className={styles.link} onClick={signOut}>
-            Logout
+            Odhlášení
           </span>
         </>
       )}
@@ -32,15 +32,13 @@ const AuthLinks = () => {
       </div>
       {open && (
         <div className={styles.responsiveMenu}>
-          <Link href="/">Homepage</Link>
-          <Link href="/">About</Link>
-          <Link href="/">Contact</Link>
+          <Link href="/o-mne">O mně</Link>
           {status === "notauthenticated" ? (
-            <Link href="/login">Login</Link>
+            <Link href="/login">Přihlášení</Link>
           ) : (
             <>
-              <Link href="/write">Write</Link>
-              <span className={styles.link}>Logout</span>
+              <Link href="/write">Napsat</Link>
+              <span className={styles.link}>Odhlášení</span>
             </>
           )}
         </div>

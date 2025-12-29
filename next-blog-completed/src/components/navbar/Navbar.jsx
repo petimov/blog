@@ -9,12 +9,14 @@ const Navbar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.social}>
-        <Image src="/facebook.png" alt="facebook" width={24} height={24} />
-        <Image src="/instagram.png" alt="instagram" width={24} height={24} />
-        <Image src="/tiktok.png" alt="tiktok" width={24} height={24} />
-        <Image src="/youtube.png" alt="youtube" width={24} height={24} />
+        <Link href="/#" className={styles.link}>
+          <Image src="/facebook.png" alt="facebook" width={24} height={24} />
+        </Link>
+        <Link href="/#" className={styles.link}>
+          <Image src="/instagram.png" alt="instagram" width={24} height={24} />
+        </Link>
       </div>
-      <div className={styles.logo}>lamablog</div>
+      <div className={styles.logo}>blog</div>
       <div className={styles.links}>
         <ThemeToggle />
         <Link href="/" className={styles.link}>Homepage</Link>
