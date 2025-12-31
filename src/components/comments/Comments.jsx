@@ -38,6 +38,44 @@ const Comments = ({ postSlug }) => {
     mutate();
   };
 
+const formatCommentDate = (isoString) => {
+  const date = new Date(isoString);
+  const now = new Date();
+
+  const diffMs = now - date;
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  const pad = (num) => String(num).padStart(2, "0");
+  const time = `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+
+  const minutesAgo = (minutes) => {
+    if (minutes === 1) return "před jednou minutou";
+    return `před ${minutes} minutami`;
+  };
+
+  const hoursAgo = (hours) => {
+    if (hours === 1) return "před 1 hodinou";
+    return `před ${hours} hodinami`;
+  };
+
+  if (diffDays === 0) {
+    if (diffHours > 0) return hoursAgo(diffHours);
+    if (diffMinutes > 0) return minutesAgo(diffMinutes);
+    return "právě teď";
+  }
+  if (diffDays === 1) return `včera ${time}`;
+  if (diffDays === 2) return `před 2 dny ${time}`;
+  if (diffDays <= 7) return `před ${diffDays} dny ${time}`;
+
+  // Older than a week: full date
+  return `${pad(date.getDate())}.${pad(date.getMonth() + 1)}.${date.getFullYear()} ${time}`;
+};
+
+
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Komentáře</h1>
@@ -72,7 +110,7 @@ const Comments = ({ postSlug }) => {
                   )}
                   <div className={styles.userInfo}>
                     <span className={styles.username}>{item.user.name}</span>
-                    <span className={styles.date}>{item.createdAt}</span>
+                    <span className={styles.date}>{formatCommentDate(item.createdAt).toLocaleString()}</span>
                   </div>
                 </div>
                 <p className={styles.desc}>{item.desc}</p>
