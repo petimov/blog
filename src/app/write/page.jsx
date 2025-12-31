@@ -143,7 +143,7 @@ const WritePage = () => {
           theme="bubble"
           value={value}
           onChange={setValue}
-          placeholder="Tell your story..."
+          placeholder="Text..."
         />
       </div>
 
