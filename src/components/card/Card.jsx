@@ -19,17 +19,21 @@ const Card = ({ key, item }) => {
 
   const isAuthor =
   user?.email?.trim().toLowerCase() === item.user?.email?.trim().toLowerCase();
-  console.log(isAuthor)
-console.log("item.userEmail:", item.userEmail);
+
+  const goToEdit = () => {
+    router.push(`/api/posts/${item.slug}/edit`);
+  };
+
   return (
-    <div className={styles.container} key={key} style={{ position: "relative" }}>
+    <Link href={`/posts/${item.slug}`} className={styles.link}>
+    <div className={styles.container} key={key}>
       {isAuthor && (
-        <Link
+        <button
           href={`/api/posts/${item.slug}/edit`}
           className={styles.editButton}
         >
           ✏️ Edit
-        </Link>
+        </button>
       )}
 
       {item.img && (
@@ -50,11 +54,9 @@ console.log("item.userEmail:", item.userEmail);
           className={styles.desc}
           dangerouslySetInnerHTML={{ __html: item?.desc.substring(0, 60) }}
         />
-        <Link href={`/posts/${item.slug}`} className={styles.link}>
-          Zobrazit článek
-        </Link>
       </div>
     </div>
+    </Link>
   );
 };
 

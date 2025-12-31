@@ -3,6 +3,17 @@
   display: flex;
   align-items: center;
   gap: 50px;
+  position: relative;
+  background-color: var(--secondaryBg);
+  padding: 24px;
+  border-radius: 8px;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  will-change: transform, filter;
+}
+
+.container:hover {
+  filter: brightness(.96);
+  transform: scale(1.005);
 }
 
 .imageContainer {
@@ -13,6 +24,7 @@
 
 .image {
   object-fit: cover;
+  border-radius: 8px;
 }
 
 .textContainer {
@@ -41,6 +53,22 @@
   border-bottom: 1px solid crimson;
   width: max-content;
   padding: 2px 0px;
+}
+
+.editButton {
+  background-color: #2a2a2a;
+  padding: 8px 12px;
+  color: #fff;
+  border-radius: 8px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: grab;
+  transition: .4s;
+}
+
+.editLink:hover {
+  filter: brightness(1.4);
 }
 
 @media screen and (max-width: 1280px) {

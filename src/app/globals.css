@@ -3,6 +3,8 @@
   --textColor: black;
   --softBg: #f0f0f0;
   --softTextColor: #626262;
+    --secondaryBg: #e6e6e6;
+  --secondaryText: #4a4a4a;
 }
 
 * {
@@ -26,6 +28,8 @@ a {
   --textColor: #ddd;
   --softBg: #1f273a;
   --softTextColor: #a6a6a6;
+  --secondaryBg: #2a334b;
+  --secondaryText: #cfcfcf;
 }
 
 .light {
