@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { auth } from "@/utils/firebase"; // import initialized auth
 import { onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const Card = ({ key, item }) => {
   const [user, setUser] = useState(null);
+   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -30,6 +32,7 @@ const Card = ({ key, item }) => {
       {isAuthor && (
         <button
           href={`/api/posts/${item.slug}/edit`}
+          onClick={goToEdit}
           className={styles.editButton}
         >
           ✏️ Edit
