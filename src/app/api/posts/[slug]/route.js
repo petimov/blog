@@ -2,7 +2,6 @@ import prisma from "@/utils/connect";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "@/utils/auth";
 
-// GET SINGLE POST
 export const GET = async (req, { params }) => {
   const { slug } = params;
 
@@ -37,7 +36,6 @@ export const PATCH = async (req, { params }) => {
   try {
     const body = await req.json();
 
-    // 1️⃣ Get existing post
     const post = await prisma.post.findUnique({
       where: { slug },
     });
@@ -49,7 +47,6 @@ export const PATCH = async (req, { params }) => {
       );
     }
 
-    // 2️⃣ Ownership check
     if (post.userEmail !== session.user.email) {
       return new NextResponse(
         JSON.stringify({ message: "Not Authorized!" }),
@@ -57,7 +54,6 @@ export const PATCH = async (req, { params }) => {
       );
     }
 
-    // 3️⃣ Update post
     const updatedPost = await prisma.post.update({
       where: { slug },
       data: {
@@ -69,6 +65,49 @@ export const PATCH = async (req, { params }) => {
     });
 
     return new NextResponse(JSON.stringify(updatedPost), { status: 200 });
+  } catch (err) {
+    console.log(err);
+    return new NextResponse(
+      JSON.stringify({ message: "Something went wrong!" }),
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (req, { params }) => {
+  const { slug } = params;
+  const session = await getAuthSession();
+
+  if (!session) {
+    return new NextResponse(
+      JSON.stringify({ message: "Not Authenticated!" }),
+      { status: 401 }
+    );
+  }
+
+  try {
+    
+    const post = await prisma.post.findUnique({ where: { slug } });
+
+    if (!post) {
+      return new NextResponse(
+        JSON.stringify({ message: "Post not found!" }),
+        { status: 404 }
+      );
+    }
+
+    if (post.userEmail !== session.user.email) {
+      return new NextResponse(
+        JSON.stringify({ message: "Not Authorized!" }),
+        { status: 403 }
+      );
+    }
+    await prisma.post.delete({ where: { slug } });
+
+    return new NextResponse(
+      JSON.stringify({ message: "Post deleted successfully" }),
+      { status: 200 }
+    );
   } catch (err) {
     console.log(err);
     return new NextResponse(

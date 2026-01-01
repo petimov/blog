@@ -18,13 +18,6 @@ export const GET = async (req) => {
     },
   };
 
-
-
-
-
-
-  
-  
   try {
     const [posts, count] = await prisma.$transaction([
       prisma.post.findMany(query),
@@ -39,36 +32,52 @@ export const GET = async (req) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-// CREATE A POST
 export const POST = async (req) => {
   const session = await getAuthSession();
 
   if (!session) {
     return new NextResponse(
-      JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
+      JSON.stringify({ message: "Not Authenticated!" }),
+      { status: 401 }
     );
   }
 
   try {
     const body = await req.json();
+
+    let slug = body.title
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase()
+  .trim()
+  .replace(/[^\w\s-]/g, "")
+  .replace(/[\s_-]+/g, "-")
+  .replace(/^-+|-+$/g, "");
+
+
+    // Optional: ensure uniqueness by appending random string if needed
+    const exists = await prisma.post.findUnique({ where: { slug } });
+    if (exists) slug += "-" + Math.floor(Math.random() * 1000);
+
+    // Create post and include user relation
     const post = await prisma.post.create({
-      data: { ...body, userEmail: session.user.email },
+      data: {
+        title: body.title,
+        desc: body.desc,
+        img: body.img,
+        catSlug: body.catSlug || "style",
+        userEmail: session.user.email,
+        slug,
+      },
+      include: { user: true },
     });
 
-    return new NextResponse(JSON.stringify(post, { status: 200 }));
+    return new NextResponse(JSON.stringify(post), { status: 200 });
   } catch (err) {
     console.log(err);
     return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
+      JSON.stringify({ message: "Something went wrong!" }),
+      { status: 500 }
     );
   }
 };

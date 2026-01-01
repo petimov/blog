@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from '../../../../write/writePage.module.css'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -22,6 +22,7 @@ const EditPage = ({ params }) => {
   const { slug } = params;
   const { status } = useSession();
   const router = useRouter();
+  const quillRef = useRef(null);
 
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
@@ -85,14 +86,62 @@ const EditPage = ({ params }) => {
 
   if (status === "loading" || !isClient) return <div>Loading...</div>;
 
-  // Slug helper
+    const imageHandler = () => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/*");
+  input.click();
+
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+
+    const storage = getStorage(app);
+    const name = new Date().getTime() + file.name;
+    const storageRef = ref(storage, name);
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      null,
+      console.error,
+      async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        const quill = quillRef.current.getEditor();
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, "image", url);
+        quill.setSelection(range.index + 1);
+      }
+    );
+  };
+};
+
   const slugify = (str) =>
     str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+
+        const modules = {
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline"],
+        [{ header: [1, 2, 3, false] }],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["image"],
+        ["clean"],
+      ],
+      handlers: {
+        image: imageHandler,
+      },
+    },
+  };
 
   const handleSubmit = async () => {
     try {
@@ -126,6 +175,29 @@ const EditPage = ({ params }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+      {/* DELETE BTN */}
+      <button
+          className={styles.delete}
+          onClick={async () => {
+            if (!confirm("Are you sure you want to delete this post?")) return;
+
+            try {
+              const res = await fetch(`/api/posts/${slug}`, {
+                method: "DELETE",
+              });
+
+              if (!res.ok) throw new Error("Delete failed");
+
+              alert("Post deleted!");
+              router.push("/");
+            } catch (err) {
+              console.error(err);
+              alert("Failed to delete post");
+            }
+          }}
+        >
+          Delete Post
+        </button>
       <select
         className={styles.select}
         value={catSlug}
@@ -162,9 +234,23 @@ const EditPage = ({ params }) => {
             </button>
           </div>
         )}
+        {media && (
+  <div style={{ marginBottom: "20px" }}>
+    <Image
+      src={media}
+      alt="Post image"
+      width={800}
+      height={400}
+      style={{ objectFit: "cover", borderRadius: "8px" }}
+    />
+  </div>
+)}
+
 
         <ReactQuill
           className={styles.textArea}
+          ref={quillRef}
+          modules={modules}
           theme="bubble"
           value={value}
           onChange={setValue}

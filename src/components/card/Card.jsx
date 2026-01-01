@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./card.module.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { auth } from "@/utils/firebase"; // import initialized auth
+import { auth } from "@/utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
@@ -30,13 +30,13 @@ const Card = ({ key, item }) => {
     <Link href={`/posts/${item.slug}`} className={styles.link}>
     <div className={styles.container} key={key}>
       {isAuthor && (
-        <button
+        <Link
           href={`/api/posts/${item.slug}/edit`}
           onClick={goToEdit}
           className={styles.editButton}
         >
           ✏️ Edit
-        </button>
+        </Link>
       )}
 
       {item.img && (

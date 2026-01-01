@@ -70,11 +70,14 @@ const WritePage = () => {
 
   const slugify = (str) =>
     str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 
   const handleSubmit = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
